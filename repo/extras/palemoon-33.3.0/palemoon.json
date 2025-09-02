@@ -1,0 +1,64 @@
+{
+  "name": "palemoon",
+  "version": "33.3.0",
+  "description": "Pale Moon – A browser based on the Unified XUL Platform (UXP)",
+  "homepage": "https://www.palemoon.org/",
+  "license": "MPL-2.0",
+  "source": "https://archive.palemoon.org/source/palemoon-33.3.0.source.tar.xz",
+  "sha256": "c5123d30f7d8a42f4b7f43d9f14321cf35b6a78914b81cfc1cbbd7358f5d50e0",
+  "dependencies": [
+    "gtk3",
+    "libxt",
+    "libx11",
+    "libxrender",
+    "libxcomposite",
+    "libxdamage",
+    "libxext",
+    "libxfixes",
+    "libxrandr",
+    "libxcb",
+    "freetype",
+    "fontconfig",
+    "libpng",
+    "libjpeg",
+    "nss",
+    "nspr",
+    "icu",
+    "dbus",
+    "alsa-lib",
+    "pulseaudio",
+    "yasm"
+  ],
+  "patches": [],
+  "prepare": [
+    "mkdir -p objdir",
+    "cat > .mozconfig <<'EOF'\n\
+ac_add_options --prefix=/usr\n\
+ac_add_options --enable-application=palemoon\n\
+ac_add_options --enable-optimize\n\
+ac_add_options --disable-debug\n\
+ac_add_options --enable-strip\n\
+ac_add_options --enable-default-toolkit=cairo-gtk3\n\
+ac_add_options --enable-official-branding\n\
+ac_add_options --disable-tests\n\
+mk_add_options MOZ_OBJDIR=@TOPSRCDIR@/objdir\n\
+EOF"
+  ],
+  "configure": [
+    "./mach configure"
+  ],
+  "build": [
+    "./mach build -j$(nproc)"
+  ],
+  "check": [],
+  "install": [
+    "./mach install --destdir=$DESTDIR"
+  ],
+  "postinstall": [
+    "install -Dm644 application/palemoon/branding/official/palemoon.desktop $DESTDIR/usr/share/applications/palemoon.desktop",
+    "install -Dm644 application/palemoon/branding/official/default128.png $DESTDIR/usr/share/icons/hicolor/128x128/apps/palemoon.png"
+  ],
+  "postremove": [
+    "echo 'Pale Moon removido com sucesso!'"
+  ]
+}
