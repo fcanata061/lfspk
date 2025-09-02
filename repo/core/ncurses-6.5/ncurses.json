@@ -1,0 +1,36 @@
+{
+  "name": "ncurses",
+  "version": "6.5",
+  "description": "The Ncurses library provides terminal handling for character-cell displays.",
+  "homepage": "https://invisible-island.net/ncurses/",
+  "license": "MIT",
+  "source": "https://ftp.gnu.org/pub/gnu/ncurses/ncurses-6.5.tar.gz",
+  "sha256": "06b26b831ca8362b078e1eaa48fba94eb2ef856d5c518b763a21b67e2c6a0345",
+  "dependencies": [],
+  "patches": [],
+  "prepare": [],
+  "configure": [
+    "./configure --prefix=/usr --mandir=/usr/share/man --with-shared --without-debug --without-ada --enable-widec --enable-pc-files --with-pkg-config-libdir=/usr/lib/pkgconfig"
+  ],
+  "build": [
+    "make"
+  ],
+  "check": [
+    "make -j1 test"
+  ],
+  "install": [
+    "make DESTDIR=$DESTDIR install",
+    "mv -v $DESTDIR/usr/lib/libncursesw.so.6* $DESTDIR/lib/",
+    "ln -sfv ../../lib/$(readlink $DESTDIR/usr/lib/libncursesw.so) $DESTDIR/usr/lib/libncursesw.so",
+    "for lib in ncurses form panel menu; do",
+    "  rm -vf $DESTDIR/usr/lib/lib${lib}.so",
+    "  echo \"INPUT(-l${lib}w)\" > $DESTDIR/usr/lib/lib${lib}.so",
+    "  ln -sfv ${lib}w.pc $DESTDIR/usr/lib/pkgconfig/${lib}.pc",
+    "done",
+    "rm -vf $DESTDIR/usr/lib/libcursesw.so",
+    "echo \"INPUT(-lncursesw)\" > $DESTDIR/usr/lib/libcursesw.so",
+    "ln -sfv libncurses.so $DESTDIR/usr/lib/libcurses.so"
+  ],
+  "postinstall": [],
+  "postremove": []
+}
