@@ -233,6 +233,32 @@ Este modelo contém todas as opções suportadas:
    sudo ./lfspkg remove bison
 
 ===========================================================
+ 9. ABREVIATURAS SUPORTADAS NA CLI
+===========================================================
+
+Comando completo      Abreviaturas
+-----------------------------------------------------------
+fetch                 f, dl
+extract               x, ex
+patch                 p
+prepare               pr
+preconfig             pc
+configure             c, conf
+build                 b, mk
+check                 t, test
+install               i
+installdest           id
+remove                rm, un
+query                 q, info
+list                  ls
+search                s
+upgrade               up
+package               pk, tar
+graph                 g
+sync                  sy, git
+
+
+===========================================================
  8. OBSERVAÇÕES
 ===========================================================
 
