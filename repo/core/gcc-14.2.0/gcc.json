@@ -1,0 +1,43 @@
+{
+  "name": "gcc",
+  "version": "14.2.0",
+  "description": "The GNU Compiler Collection (C, C++, and other languages)",
+  "homepage": "https://gcc.gnu.org/",
+  "license": "GPL-3.0-or-later",
+  "source": "https://ftp.gnu.org/gnu/gcc/gcc-14.2.0/gcc-14.2.0.tar.xz",
+  "sha256": "d13d5f91dcbf1a2db74b0c7c72f2f3d1b3c6a02cbb1e2d5b9d3c1a5e5e0ef71a",
+  "dependencies": [
+    "gmp",
+    "mpfr",
+    "mpc",
+    "isl"
+  ],
+  "patches": [],
+  "prepare": [
+    "mkdir -p build"
+  ],
+  "configure": [
+    "cd build && ../configure --prefix=/usr \\
+      --enable-languages=c,c++ \\
+      --disable-multilib \\
+      --disable-bootstrap \\
+      --with-system-zlib"
+  ],
+  "build": [
+    "cd build && make -j$(nproc)"
+  ],
+  "check": [
+    "cd build && make -k check || true",
+    "cd build && ../contrib/test_summary || true"
+  ],
+  "install": [
+    "cd build && make DESTDIR=$DESTDIR install",
+    "mv -v $DESTDIR/usr/libexec/gcc/*/*/liblto_plugin.so $DESTDIR/usr/lib/bfd-plugins/"
+  ],
+  "postinstall": [
+    "ln -svf gcc $DESTDIR/usr/bin/cc"
+  ],
+  "postremove": [
+    "echo '⚠️  GCC removido — compilação de programas pode falhar!'"
+  ]
+}
