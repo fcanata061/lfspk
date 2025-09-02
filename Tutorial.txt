@@ -6,6 +6,10 @@ Autor: Você
 Objetivo: Gerenciador de pacotes minimalista e funcional
 para Linux From Scratch, escrito em Go.
 
+export REPO=/var/lfspkg/repo
+sudo ./lfspkg build palemoon
+
+
 ===========================================================
  1. ESTRUTURA DE DIRETÓRIOS
 ===========================================================
