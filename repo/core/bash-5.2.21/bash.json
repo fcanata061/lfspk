@@ -1,0 +1,37 @@
+{
+  "name": "bash",
+  "version": "5.2.21",
+  "description": "The GNU Bourne-Again SHell",
+  "homepage": "https://www.gnu.org/software/bash/",
+  "license": "GPL-3.0-or-later",
+  "source": "https://ftp.gnu.org/gnu/bash/bash-5.2.21.tar.gz",
+  "sha256": "b6dbd2b8aaf2d7d7b98a9d885db2fcb1c36c0fbbd1828e63256c5d2e62b1dc9c",
+  "dependencies": [
+    "ncurses"
+  ],
+  "patches": [
+    "https://ftp.gnu.org/gnu/bash/bash-5.2-patches/bash52-001",
+    "https://ftp.gnu.org/gnu/bash/bash-5.2-patches/bash52-002"
+  ],
+  "prepare": [
+    "for p in $PATCHES/*.patch; do patch -Np0 -i $p; done"
+  ],
+  "configure": [
+    "./configure --prefix=/usr --without-bash-malloc --docdir=/usr/share/doc/bash-5.2.21"
+  ],
+  "build": [
+    "make"
+  ],
+  "check": [
+    "make tests"
+  ],
+  "install": [
+    "make DESTDIR=$DESTDIR install"
+  ],
+  "postinstall": [
+    "ln -svf bash $DESTDIR/bin/sh"
+  ],
+  "postremove": [
+    "echo '⚠️  Você removeu o bash, cuidado!'"
+  ]
+}
